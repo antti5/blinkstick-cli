@@ -7,7 +7,7 @@
    "bin": {
       "blinkstick": "bin/blinkstick.js"
    },
-   "devDependencies": {
+   "dependencies": {
       "node-hid": "3.3.0"
    }
 }
