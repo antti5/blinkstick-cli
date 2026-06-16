@@ -32,3 +32,5 @@ The lowest brightness 1 is very dim, and it is possible that it does not even tu
 ## BlinkStick class
 
 Actual control of the device takes place from the `BlinkStick` class under the `lib` directory. Depending on your needs, you may find this class useful by itself.
+
+The class allows better control of the blink pattern, as you can adjust the blink interval and blink duration. The CLI utility always uses 1-second interval where the LED is turned on for 500 ms and then off for 500 ms.
