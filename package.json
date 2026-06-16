@@ -1,0 +1,13 @@
+{
+   "name": "blinkstick-cli-tiny",
+   "version": "0.1.0",
+   "license": "MIT",
+   "author": "Antti Salonen",
+   "type": "module",
+   "bin": {
+      "blinkstick": "bin/blinkstick.js"
+   },
+   "devDependencies": {
+      "node-hid": "3.3.0"
+   }
+}
