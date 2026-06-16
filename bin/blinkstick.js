@@ -31,7 +31,7 @@ if (args.length < 1) {
    process.stderr.write(`Usage: blinkstick [LED index] <Color> ["blink"] [Brightness]\n\n`);
    process.stderr.write('LED index:  LED index starting from 0, by default use first LED\n');
    process.stderr.write(`Color:      ${Object.keys(COLOR).join(', ')}\n`);
-   process.stderr.write('Brightness: 0 = off, 8 = full brightness\n');
+   process.stderr.write('Brightness: 0 = off, 8 = full brightness, by default use 4\n');
    process.exit(1);
 }
 
@@ -51,7 +51,7 @@ if (blink)
    args.shift();
 
 // Convert color and brightness to RGB values
-const rgb = COLOR[color]?.map(n => n * BRIGHTNESS[args[0] ?? 4]);
+const rgb = COLOR[color]?.map(n => n * BRIGHTNESS[args[0]] ?? BRIGHTNESS[4]);
 
 
 /* Set LED or start blink. When blinking the process stays alive because of active
