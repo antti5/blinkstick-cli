@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import BlinkStick from '../lib/BlinkStick.js';
+import cmdLineArgs from '@antti5/cmd-line-args';
 
 
 /* The lowest non-zero brightness is 5. This is quite dim, and by testing the
@@ -22,43 +23,49 @@ const COLOR = {
    white:   [1, 1, 1]
 };
 
+const args = cmdLineArgs(
+   'blinkstick',
+   'CLI utility for BlinkStick smart LED controllers',
+   [
+      {
+         name: 'color',
+         mandatory: true,
+         defaultOption: true
+      },
+      {
+         name: 'brightness',
+         description: 'Brightness from 0 to 8 (default = 4)',
+         type: value => value >= 0 && value <= 8 ? Number(value) : null,
+         defaultValue: 4
+      },
+      {
+         name: 'index',
+         description: 'LED index (default = 0)',
+         type: value => value >= 0 ? Number(value) : null,
+         defaultValue: 0
+      },
+      {
+         name: 'blink',
+         description: 'Start blinking (ctrl-C to stop)',
+         type: Boolean
+      }
+   ]
+)
 
-/* Handle command-line arguments */
-
-const args = process.argv.slice(2);
-
-if (args.length < 1) {
-   process.stderr.write(`Usage: blinkstick [LED index] <Color> ["blink"] [Brightness]\n\n`);
-   process.stderr.write('LED index:  LED index starting from 0, by default use first LED\n');
-   process.stderr.write(`Color:      ${Object.keys(COLOR).join(', ')}\n`);
-   process.stderr.write('Brightness: 0 = off, 8 = full brightness, by default use 4\n');
-   process.exit(1);
-}
-
-// Index is optional, read if number
-const index = !isNaN(args[0]) ? args.shift() : 0;
-
-// Color is mandatory
-const color = args.shift();
-if (!COLOR[color]) {
+if (args.color.toLowerCase() in COLOR === false) {
    process.stderr.write(`Available colors: ${Object.keys(COLOR).join(', ')}\n`);
    process.exit(1);
 }
 
-// Blink is optional
-const blink = args[0] === 'blink';
-if (blink)
-   args.shift();
-
 // Convert color and brightness to RGB values
-const rgb = COLOR[color].map(n => n * (BRIGHTNESS[args[0]] ?? BRIGHTNESS[4]));
+const rgb = COLOR[args.color.toLowerCase()].map(n => n * BRIGHTNESS[args.brightness]);
 
 
 /* Set LED or start blink. When blinking the process stays alive because of active
 interval in the BlinkStick object. */
 
 try {
-   const bs = new BlinkStick(index);
+   const bs = new BlinkStick(args.index);
    if (blink) {
       bs.blinkStart(...rgb);
    } else {
