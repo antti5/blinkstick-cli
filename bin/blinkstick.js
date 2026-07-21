@@ -29,8 +29,8 @@ const args = cmdLineArgs(
    [
       {
          name: 'color',
-         mandatory: true,
-         defaultOption: true
+         positional: true,
+         mandatory: true
       },
       {
          name: 'brightness',
