@@ -13,14 +13,14 @@ consistent changes in brightness. */
 const BRIGHTNESS = [ 0, 5, 9, 15, 27, 47, 83, 145, 255 ];
 
 const COLOR = {
-   off:     [0, 0, 0],
    red:     [1, 0, 0],
    yellow:  [1, 1, 0],
    green:   [0, 1, 0],
    cyan:    [0, 1, 1],
    blue:    [0, 0, 1],
    magenta: [1, 0, 1],
-   white:   [1, 1, 1]
+   white:   [1, 1, 1],
+   off:     [0, 0, 0]
 };
 
 const args = cmdLineArgs(
@@ -30,7 +30,8 @@ const args = cmdLineArgs(
       {
          name: 'color',
          positional: true,
-         mandatory: true
+         mandatory: true,
+         description: Object.keys(COLOR).join(', ')
       },
       {
          name: 'brightness',
